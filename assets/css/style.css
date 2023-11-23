@@ -54,7 +54,7 @@ h1 {
 }
 .text {
     cursor: pointer;
-    word-break: keep-all;
+    word-break: break-word;
     width: 410px;
 }
 
