@@ -52,8 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
       li.classList.add("concluida");
     }
     spanTexto.addEventListener("click", function () {
-      chkbx.checked = !chkbx.checked; // Inverte o estado do checkbox ao clicar no texto
-
+      chkbx.checked = !chkbx.checked;
       if (chkbx.checked) {
         li.classList.add("concluida");
       } else {
@@ -101,7 +100,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let tarefaTexto = tarefa.querySelector(".text").innerText;
       const marcada = tarefa.querySelector(".checkboxLi").checked;
 
-      listaDeTarefas.push(`${tarefaTexto}|${marcada}`);
+      const tarefaObjeto = {
+        texto: tarefaTexto,
+        checkbox: marcada,
+      };
+
+      listaDeTarefas.push(tarefaObjeto);
     }
 
     const tarefasJSON = JSON.stringify(listaDeTarefas);
@@ -114,11 +118,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (listaDeTarefas) {
       for (let tarefa of listaDeTarefas) {
-        const [texto, marcada] = tarefa.split("|");
-        adicionarTarefa(texto, marcada === "true");
+        adicionarTarefa(tarefa.texto, tarefa.checkbox);
       }
     }
   }
-
   adicionarTarefasSalvas();
 });
