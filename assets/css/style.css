@@ -22,10 +22,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
 }
 .container {
     max-width: 1600px;
+    height: 100%;
     margin: 50px auto;
     padding: 20px;
 }
@@ -34,7 +35,8 @@ body {
     background: var(--second-color);
     border-radius: 10px;
     box-shadow: -4px 4px 4px 2px rgba(0, 0, 0, 0.288);
-    margin-top: 60px;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 h1 {
     color: var(--primary-color);
