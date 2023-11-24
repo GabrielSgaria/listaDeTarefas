@@ -181,16 +181,34 @@ li.concluida span {
     outline: 2px solid var(--primary-color-dark);
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 481px) {
     .wrapper {
-        width: 500px;
+        width: 380px;
+    }
+    .editar{
+        width: 30px;
+        height: 30px;
+        justify-content: center;
+    }
+    .apagar{
+        width: 30px;
+        height: 30px;
+        justify-content: center;
+    }
 
+    .editar img {
+        width: 22px;
+        height: 22px;
+    }
+    .editar img {
+        width: 22px;
+        height: 22px;
     }
     .addTask {
         flex-direction: column;
     }
     .task{
-        width: 400px;
+        width: 300px;
     }
 
     .text {
