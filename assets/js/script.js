@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const addTaskButton = document.getElementById("addTaskButton");
   const taskInput = document.querySelector(".task");
-  const newTask = document.getElementById("tarefas");
+  const newTask = document.getElementById("tasks");
 
   function createLi() {
     return document.createElement("li");
@@ -10,155 +10,155 @@ document.addEventListener("DOMContentLoaded", function () {
   taskInput.addEventListener("keypress", function (e) {
     if (e.keyCode === 13) {
       if (!taskInput.value) return;
-      adicionarTarefa(taskInput.value);
+      addTask(taskInput.value);
     }
   });
 
-  function criaCheckBox() {
-    const chkbx = document.createElement("input");
-    chkbx.type = "checkbox";
-    chkbx.className = "checkboxLi";
-    chkbx.checked = false;
-    return chkbx;
+  function createCheckBox() {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "checkboxLi";
+    checkbox.checked = false;
+    return checkbox;
   }
 
-  function limpaInput() {
+  function clearInput() {
     taskInput.value = "";
     taskInput.focus();
   }
 
-  function criaBotaoApagar() {
-    const botaoApagar = document.createElement("button");
-    const imgTrash = document.createElement("img");
-    imgTrash.src = "/assets/img/trash-simple.svg";
-    imgTrash.alt = "Apagar";
-    botaoApagar.appendChild(imgTrash);
-    botaoApagar.setAttribute("class", "apagar");
-    botaoApagar.setAttribute("title", "Apagar tarefa");
-    return botaoApagar;
+  function createDeleteButton() {
+    const deleteButton = document.createElement("button");
+    const trashIcon = document.createElement("img");
+    trashIcon.src = "/assets/img/trash-simple.svg";
+    trashIcon.alt = "Delete";
+    deleteButton.appendChild(trashIcon);
+    deleteButton.setAttribute("class", "delete");
+    deleteButton.setAttribute("title", "Delete task");
+    return deleteButton;
   }
 
-  function criaBotaoEditar() {
-    const botaoEditar = document.createElement("button");
-    const imgEditar = document.createElement("img");
-    imgEditar.src = "/assets/img/pencil-simple.svg";
-    imgEditar.alt = "Editar"
+  function createEditButton() {
+    const editButton = document.createElement("button");
+    const editIcon = document.createElement("img");
+    editIcon.src = "/assets/img/pencil-simple.svg";
+    editIcon.alt = "Edit";
 
-    botaoEditar.appendChild(imgEditar);
-    botaoEditar.setAttribute("class", "editar");
-    botaoEditar.setAttribute("title", "Editar tarefa");
+    editButton.appendChild(editIcon);
+    editButton.setAttribute("class", "edit");
+    editButton.setAttribute("title", "Edit task");
 
-    return botaoEditar;
+    return editButton;
   }
 
-  function adicionarTarefaDOM(tarefa) {
+  function addTaskToDOM(task) {
     const li = createLi();
-    const chkbx = criaCheckBox();
-    const spanTexto = document.createElement("span");
-    spanTexto.classList.add("text");
-    spanTexto.innerText = tarefa.texto;
+    const checkbox = createCheckBox();
+    const spanText = document.createElement("span");
+    spanText.classList.add("text");
+    spanText.innerText = task.text;
 
-    li.appendChild(chkbx);
-    li.appendChild(spanTexto);
+    li.appendChild(checkbox);
+    li.appendChild(spanText);
     newTask.appendChild(li);
 
-    chkbx.checked = tarefa.checkbox;
+    checkbox.checked = task.checked;
 
-    if (tarefa.checkbox) {
-      li.classList.add("concluida");
+    if (task.checked) {
+      li.classList.add("completed");
     }
 
-    spanTexto.addEventListener("click", function () {
-      chkbx.checked = !chkbx.checked;
-      if (chkbx.checked) {
-        li.classList.add("concluida");
+    spanText.addEventListener("click", function () {
+      checkbox.checked = !checkbox.checked;
+      if (checkbox.checked) {
+        li.classList.add("completed");
       } else {
-        li.classList.remove("concluida");
+        li.classList.remove("completed");
       }
-      salvarTarefas();
+      saveTasks();
     });
 
-    const botaoEditar = criaBotaoEditar();
-    const botaoApagar = criaBotaoApagar();
-    li.appendChild(botaoEditar);
-    li.appendChild(botaoApagar);
+    const editButton = createEditButton();
+    const deleteButton = createDeleteButton();
+    li.appendChild(editButton);
+    li.appendChild(deleteButton);
 
-    botaoEditar.addEventListener("click", function () {
-      const novoTexto = prompt("Digite o novo texto:", tarefa.texto);
-      if (novoTexto !== null) {
-        tarefa.texto = novoTexto;
-        spanTexto.innerText = novoTexto;
-        salvarTarefas();
+    editButton.addEventListener("click", function () {
+      const newText = prompt("Enter the new text:", task.text);
+      if (newText !== null) {
+        task.text = newText;
+        spanText.innerText = newText;
+        saveTasks();
       }
     });
 
-    botaoApagar.addEventListener("click", function () {
+    deleteButton.addEventListener("click", function () {
       li.remove();
-      salvarTarefas();
+      saveTasks();
     });
   }
 
-  function adicionarTarefa(tarefaTexto, marcada = false) {
-    const tarefaObjeto = {
-      texto: tarefaTexto,
-      checkbox: marcada,
+  function addTask(taskText, checked = false) {
+    const taskObject = {
+      text: taskText,
+      checked: checked,
     };
 
-    adicionarTarefaDOM(tarefaObjeto);
-    limpaInput();
-    salvarTarefas();
+    addTaskToDOM(taskObject);
+    clearInput();
+    saveTasks();
   }
 
   addTaskButton.addEventListener("click", function () {
     if (!taskInput.value) return;
-    adicionarTarefa(taskInput.value);
+    addTask(taskInput.value);
   });
 
   newTask.addEventListener("click", function (e) {
-    const el = e.target;
+    const element = e.target;
 
-    if (el.classList.contains("checkboxLi")) {
-      const valorCheck = el.checked;
-      const li = el.parentElement;
+    if (element.classList.contains("checkboxLi")) {
+      const checkedValue = element.checked;
+      const li = element.parentElement;
 
-      if (valorCheck === true) {
-        li.classList.add("concluida");
+      if (checkedValue === true) {
+        li.classList.add("completed");
       } else {
-        li.classList.remove("concluida");
+        li.classList.remove("completed");
       }
-      salvarTarefas();
+      saveTasks();
     }
   });
 
-  function salvarTarefas() {
-    const liTarefas = newTask.querySelectorAll("li");
-    const listaDeTarefas = [];
+  function saveTasks() {
+    const liTasks = newTask.querySelectorAll("li");
+    const taskList = [];
 
-    for (let tarefa of liTarefas) {
-      let tarefaTexto = tarefa.querySelector(".text").innerText;
-      const marcada = tarefa.querySelector(".checkboxLi").checked;
+    for (let task of liTasks) {
+      let taskText = task.querySelector(".text").innerText;
+      const checked = task.querySelector(".checkboxLi").checked;
 
-      const tarefaObjeto = {
-        texto: tarefaTexto,
-        checkbox: marcada,
+      const taskObject = {
+        text: taskText,
+        checked: checked,
       };
 
-      listaDeTarefas.push(tarefaObjeto);
+      taskList.push(taskObject);
     }
 
-    const tarefasJSON = JSON.stringify(listaDeTarefas);
-    localStorage.setItem("tarefas", tarefasJSON);
+    const tasksJSON = JSON.stringify(taskList);
+    localStorage.setItem("tasks", tasksJSON);
   }
 
-  function adicionarTarefasSalvas() {
-    const tarefas = localStorage.getItem("tarefas");
-    const listaDeTarefas = JSON.parse(tarefas);
+  function addSavedTasks() {
+    const tasks = localStorage.getItem("tasks");
+    const taskList = JSON.parse(tasks);
 
-    if (listaDeTarefas) {
-      for (let tarefa of listaDeTarefas) {
-        adicionarTarefaDOM(tarefa);
+    if (taskList) {
+      for (let task of taskList) {
+        addTaskToDOM(task);
       }
     }
   }
-  adicionarTarefasSalvas();
+  addSavedTasks();
 });
